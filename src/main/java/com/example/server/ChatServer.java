@@ -24,4 +24,27 @@ public class ChatServer {
             e.printStackTrace();
         }
     }
+
+    public AuthService getAuthService() {
+        return authService;
+    }
+
+    public boolean isNickBusy(String nick){
+        for (ClientHandler client : clients) {
+            if (client.getNick().equals(nick)){
+                return true;
+            }
+        }
+        return  false;
+    }
+
+    public void subscribe(ClientHandler client){
+        clients.add(client);
+    }
+
+    public void unsubscribe (ClientHandler client){
+        clients.remove(client);
+    }
+
+
 }
