@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class EchoClient {
+public class ChatClient {
 
     private Socket socket;//клиенту нужен сокет для подключения
     private DataInputStream in;//переменная для получения текста
@@ -14,7 +14,7 @@ public class EchoClient {
 
     private Controller controller;//передаем класс Контроллер в ЭхоКлиент
 
-    public EchoClient(Controller controller) {//передаем его в конструктор
+    public ChatClient(Controller controller) {//передаем его в конструктор
         this.controller = controller;
         openConnection();
     }
