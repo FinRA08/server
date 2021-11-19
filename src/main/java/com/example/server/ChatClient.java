@@ -28,9 +28,17 @@ public class ChatClient {
                 @Override
                 public void run() {
                     try {
+                        while (true){
+                            final String msgAuth = in.readUTF();
+                            if (msgAuth.startsWith("/authok")){
+                                String[] split = msgAuth.split(" ");
+                                final String nick = split[1];
+                                controller.addMessage("Успешная авторизация под ником " + nick);
+                                break;
+                            }
+                        }
                         while (true) {
                             final String message = in.readUTF();
-                            System.out.println("Сообщение от клиента: " + message);
                             if ("/end".equals(message)) {
                                 break;
                             }

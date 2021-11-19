@@ -47,4 +47,9 @@ public class ChatServer {
     }
 
 
+    public void broadcast(String msg) {
+        for (ClientHandler client : clients) {
+            client.sendMessage(msg);
+        }
+    }
 }

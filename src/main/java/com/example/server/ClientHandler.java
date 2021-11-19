@@ -77,9 +77,11 @@ public class ClientHandler {
                             System.out.println("Пользователь уже авторизован");
                             continue;
                         }
-                        sendMessage("/authok" + nick);//метод уведомляет клиента что он авторизировался
+                        sendMessage("/authok " + nick);//метод уведомляет клиента что он авторизировался
                         this.nick = nick;
+                        server.broadcast("Пользователь " + nick + " зашел в чат");
                         server.subscribe(this);
+                        break;
                     }else {
                         sendMessage("Неверный логин и пароль");
                     }
@@ -91,7 +93,7 @@ public class ClientHandler {
         }
     }
 
-    private void sendMessage(String message) {
+    public void sendMessage(String message) {
         try {
             System.out.println("SERVER: Send message to " + nick);
             out.writeUTF(message);
@@ -107,7 +109,7 @@ public class ClientHandler {
                 if ("/end".equals(msg)){
                     break;
                 }
-                sendMessage(nick + ": " + msg);
+                server.broadcast(nick + ": " + msg);
             }
         }catch (IOException e){
             e.printStackTrace();
