@@ -14,7 +14,7 @@ public class ClientHandler {
 
     public ClientHandler(Socket socket, ChatServer server) {
         try {
-            this.nick = " ";
+            this.nick = "";
             this.socket = socket;
             this.server = server;
             this.in = new DataInputStream(socket.getInputStream());
@@ -29,9 +29,6 @@ public class ClientHandler {
                 }
             }).start();
 
-
-
-
         } catch (IOException e) {
             throw new RuntimeException(e);//бросаем исключение, что бы исключить ошибку не заполнения какого то поля
         }
@@ -42,7 +39,7 @@ public class ClientHandler {
             if (in != null){
                 in.close();
             }
-            in.close();
+//            in.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,7 +71,7 @@ public class ClientHandler {
                     final String nick = server.getAuthService().getNicByLoginAndPassword(login, password);
                     if (nick != null){
                         if (server.isNickBusy(nick)){
-                            System.out.println("Пользователь уже авторизован");
+                            sendMessage("Пользователь уже авторизован");
                             continue;
                         }
                         sendMessage("/authok " + nick);//метод уведомляет клиента что он авторизировался
@@ -85,7 +82,6 @@ public class ClientHandler {
                     }else {
                         sendMessage("Неверный логин и пароль");
                     }
-
                 }
             } catch (IOException e) {
                 e.printStackTrace();

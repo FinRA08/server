@@ -24,22 +24,22 @@ public class ChatClient {
             socket = new Socket("localhost",8189);// инициализируем сокет и указываем порт EchoServera
             in = new DataInputStream(socket.getInputStream());//переменная принимающая через сокет
             out = new DataOutputStream(socket.getOutputStream());//переменная отправляющая через сокет
-            new Thread(new Runnable() {//отдельный поток направления сообщений
-                @Override
-                public void run() {
+            new Thread(()-> {//отдельный поток направления сообщений
                     try {
                         while (true){
                             final String msgAuth = in.readUTF();
                             if (msgAuth.startsWith("/authok")){
-                                String[] split = msgAuth.split(" ");
+                                final String[] split = msgAuth.split(" ");
                                 final String nick = split[1];
                                 controller.addMessage("Успешная авторизация под ником " + nick);
+                                controller.setAuth(true);
                                 break;
                             }
                         }
                         while (true) {
                             final String message = in.readUTF();
                             if ("/end".equals(message)) {
+                                controller.setAuth(false);
                                 break;
                             }
                             controller.addMessage(message);
@@ -49,7 +49,6 @@ public class ChatClient {
                         }finally{
                             closeConnection();
                         }
-                }
             }).start();
         } catch (IOException e) {
             e.printStackTrace();
